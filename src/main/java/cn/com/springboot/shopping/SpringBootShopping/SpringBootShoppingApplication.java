@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication//(exclude= {DataSourceAutoConfiguration.class})
 @ComponentScan(basePackages= {"cn.com.springboot.shopping.controller","cn.com.springboot.shopping.service"})
