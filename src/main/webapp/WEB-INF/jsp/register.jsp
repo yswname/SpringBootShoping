@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-   <form action="register.mvc" method="post">
+   <form action="register" method="post">
       UserName:<input type="text" name="urUserName"/><br/>
       Password:<input type='password' name="urPassword"/><br/>
       <input type="submit" value="注册"/>

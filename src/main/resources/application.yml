@@ -15,3 +15,12 @@ spring:
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
+#数据源配置
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/shop_db?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#mybatis配置s
+mybatis:
+  type-aliases-package: cn.com.springboot.shopping.entity
