@@ -1,17 +1,23 @@
 package cn.com.springboot.shopping.mapper;
 
-import cn.com.springboot.shopping.entity.SpImages;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import cn.com.springboot.shopping.entity.SpImages;
+
 public interface SpImagesMapper {
+	@Select("select * from sp_images where img_type=1 and img_pr_id=#{prId}")
+	@ResultMap("SpImagesMap")
+	public SpImages findListPicByPrId(int prId);
+	
     @Delete({
         "delete from sp_images",
         "where img_id = #{imgId,jdbcType=INTEGER}"
@@ -37,7 +43,7 @@ public interface SpImagesMapper {
         "from sp_images",
         "where img_id = #{imgId,jdbcType=INTEGER}"
     })
-    @Results({
+    @Results(id="SpImagesMap", value={
         @Result(column="img_id", property="imgId", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="img_title", property="imgTitle", jdbcType=JdbcType.VARCHAR),
         @Result(column="img_url", property="imgUrl", jdbcType=JdbcType.VARCHAR),

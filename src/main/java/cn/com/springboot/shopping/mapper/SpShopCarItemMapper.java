@@ -1,17 +1,45 @@
 package cn.com.springboot.shopping.mapper;
 
-import cn.com.springboot.shopping.entity.SpShopCarItem;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import cn.com.springboot.shopping.entity.SpShopCarItem;
+
 public interface SpShopCarItemMapper {
+	@Delete({
+        "delete from sp_shoper_car_item",
+        "where car_it_ur_id = #{urId,jdbcType=INTEGER}"
+    })
+	public void deleteByUrId(int urId);
+	
+	@Select({
+        "select",
+        "car_it_id, car_it_pr_id, car_it_number, car_it_ur_id",
+        "from sp_shoper_car_item",
+        "where car_it_ur_id = #{param1,jdbcType=INTEGER}"
+    })
+	@ResultMap("SpShopCarItemMap")
+	List<SpShopCarItem> findByUrId(int urId);
+	
+	@Select({
+        "select",
+        "car_it_id, car_it_pr_id, car_it_number, car_it_ur_id",
+        "from sp_shoper_car_item",
+        "where car_it_ur_id = #{param1,jdbcType=INTEGER} and car_it_pr_id=#{param2}"
+    })
+	@ResultMap("SpShopCarItemMap")
+	SpShopCarItem findItemByUrIdAndProId(int urId, int prId);
+	
     @Delete({
         "delete from sp_shoper_car_item",
         "where car_it_id = #{carItId,jdbcType=INTEGER}"
@@ -35,7 +63,7 @@ public interface SpShopCarItemMapper {
         "from sp_shoper_car_item",
         "where car_it_id = #{carItId,jdbcType=INTEGER}"
     })
-    @Results({
+    @Results(id="SpShopCarItemMap",value={
         @Result(column="car_it_id", property="carItId", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="car_it_pr_id", property="carItPrId", jdbcType=JdbcType.INTEGER),
         @Result(column="car_it_number", property="carItNumber", jdbcType=JdbcType.INTEGER),

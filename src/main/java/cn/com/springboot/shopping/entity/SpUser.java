@@ -34,10 +34,4 @@ public class SpUser implements Serializable {
     public void setUrPassword(String urPassword) {
         this.urPassword = urPassword == null ? null : urPassword.trim();
     }
-
-	@Override
-	public String toString() {
-		return "SpUser [urId=" + urId + ", urUserName=" + urUserName + ", urPassword=" + urPassword + "]";
-	}
-    
 }

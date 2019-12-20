@@ -16,10 +16,20 @@ public class SpProduct implements Serializable {
     private String prAttrs;
 
     private String prDetailDesc;
+    
+    private SpImages listPic;// 查询得列表图片
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getPrId() {
+    public SpImages getListPic() {
+		return listPic;
+	}
+
+	public void setListPic(SpImages listPic) {
+		this.listPic = listPic;
+	}
+
+	public Integer getPrId() {
         return prId;
     }
 

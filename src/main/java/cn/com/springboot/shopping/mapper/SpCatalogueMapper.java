@@ -1,17 +1,24 @@
 package cn.com.springboot.shopping.mapper;
 
-import cn.com.springboot.shopping.entity.SpCatalogue;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
 import org.apache.ibatis.type.JdbcType;
 
+import cn.com.springboot.shopping.entity.SpCatalogue;
+
 public interface SpCatalogueMapper {
+	@Select("select * from sp_catalogue order by ct_id")
+	@ResultMap("SpCatalogueMap")
+	List<SpCatalogue> findAll();
     @Delete({
         "delete from sp_catalogue",
         "where ct_id = #{ctId,jdbcType=INTEGER}"
@@ -35,7 +42,7 @@ public interface SpCatalogueMapper {
         "from sp_catalogue",
         "where ct_id = #{ctId,jdbcType=INTEGER}"
     })
-    @Results({
+    @Results(id="SpCatalogueMap",value={
         @Result(column="ct_id", property="ctId", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="ct_name", property="ctName", jdbcType=JdbcType.VARCHAR),
         @Result(column="ct_parent_id", property="ctParentId", jdbcType=JdbcType.INTEGER),

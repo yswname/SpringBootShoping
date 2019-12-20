@@ -18,8 +18,18 @@ import cn.com.springboot.shopping.entity.SpUser;
 public interface SpUserMapper {
 	@Select("select * from sp_user order by ur_id")
 	@ResultMap("SpUserMap")
-	List<SpUser> findAllUsers();
-	
+	public List<SpUser> findAllUsers();
+    
+    
+    @Select({
+        "select",
+        "ur_id, ur_user_name, ur_password",
+        "from sp_user",
+        "where ur_user_name = #{userName}"
+    })
+    @ResultMap("SpUserMap")
+    public SpUser findByUserName(String userName);
+    
     @Delete({
         "delete from sp_user",
         "where ur_id = #{urId,jdbcType=INTEGER}"
@@ -43,7 +53,7 @@ public interface SpUserMapper {
         "from sp_user",
         "where ur_id = #{urId,jdbcType=INTEGER}"
     })
-    @Results(id="SpUserMap", value={
+    @Results(id="SpUserMap",value={
         @Result(column="ur_id", property="urId", jdbcType=JdbcType.INTEGER, id=true),
         @Result(column="ur_user_name", property="urUserName", jdbcType=JdbcType.VARCHAR),
         @Result(column="ur_password", property="urPassword", jdbcType=JdbcType.VARCHAR)
