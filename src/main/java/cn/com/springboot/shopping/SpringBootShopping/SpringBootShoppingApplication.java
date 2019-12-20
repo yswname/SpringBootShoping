@@ -8,7 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication//(exclude= {DataSourceAutoConfiguration.class})
-@ComponentScan(basePackages= {"cn.com.springboot.shopping.controller","cn.com.springboot.shopping.service"})
+@ComponentScan(basePackages= {"cn.com.springboot.shopping.controller",
+		                      "cn.com.springboot.shopping.service",
+		                      "cn.com.demo.processor"})
 @MapperScan(basePackages= {"cn.com.springboot.shopping.mapper"})
 public class SpringBootShoppingApplication {
 
