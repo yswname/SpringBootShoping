@@ -3,7 +3,6 @@ package cn.com.springboot.shopping.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -16,13 +15,14 @@ import cn.com.springboot.shopping.mapper.SpShopCarItemMapper;
 import cn.com.springboot.shopping.service.IProductService;
 import cn.com.springboot.shopping.service.IShopCarService;
 import cn.com.springboot.shopping.service.ShopCarItem;
+import cn.com.springboot.shopping.utils.ApplicationContextTool;
 @Service("shopCarService4DB")
 @Scope(value=ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ShopCarServiceImpl4DB implements IShopCarService {
-	@Autowired
-	private SpShopCarItemMapper carDAO;
-	@Autowired
-	private IProductService productService;
+//	@Autowired
+//	private SpShopCarItemMapper carDAO;
+//	@Autowired
+//	private IProductService productService;
 
 	private int urId;
 
@@ -33,100 +33,49 @@ public class ShopCarServiceImpl4DB implements IShopCarService {
 
 	@Override
 	public void add(SpProduct pro) {
-		this.add(pro, 1);
+		add(pro, 1);
 	}
 
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
 	public void add(SpProduct pro, int number) {
-		if (pro != null) {
-			SpShopCarItem item = this.carDAO.findItemByUrIdAndProId(urId, pro.getPrId());
-			if(item == null) {
-				// 没有
-				item = new SpShopCarItem();
-				item.setCarItNumber(number);
-				item.setCarItPrId(pro.getPrId());
-				item.setCarItUrId(urId);
-				// 插入
-				this.carDAO.insert(item);
-			}else {
-				item.setCarItNumber(item.getCarItNumber()+number);
-				// 更新(urId+prId)
-				this.carDAO.updateByPrimaryKeySelective(item);
-			}
-		}
+		IShopCarService shopCar = (IShopCarService)ApplicationContextTool.getBean("ShopCarServiceImpl4DBAdapter");
+		shopCar.setUserId(this.urId);
+		shopCar.add(pro, number);
 	}
 
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
 	public void edit(SpProduct pro, int number) {
-		if(pro != null) {
-			SpShopCarItem item = this.carDAO.findItemByUrIdAndProId(urId, pro.getPrId());
-			if(item == null) {
-				// 没有
-				item = new SpShopCarItem();
-				item.setCarItNumber(number);
-				item.setCarItPrId(pro.getPrId());
-				item.setCarItUrId(urId);
-				// 插入
-				this.carDAO.insert(item);
-			}else {
-				item.setCarItNumber(number);
-				// 更新(urId+prId)
-				this.carDAO.updateByPrimaryKeySelective(item);
-			}
-		}
+		IShopCarService shopCar = (IShopCarService)ApplicationContextTool.getBean("ShopCarServiceImpl4DBAdapter");
+		shopCar.setUserId(this.urId);
+		shopCar.edit(pro, number);
 	}
 
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
 	public void remove(SpProduct pro) {
-		if(pro != null) {
-			SpShopCarItem item = this.carDAO.findItemByUrIdAndProId(urId, pro.getPrId());
-			this.carDAO.deleteByPrimaryKey(item.getCarItId());
-		}
+		IShopCarService shopCar = (IShopCarService)ApplicationContextTool.getBean("ShopCarServiceImpl4DBAdapter");
+		shopCar.setUserId(this.urId);
+		shopCar.remove(pro);
 	}
 
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
 	public void clear() {
-		this.carDAO.deleteByUrId(urId);
+		IShopCarService shopCar = (IShopCarService)ApplicationContextTool.getBean("ShopCarServiceImpl4DBAdapter");
+		shopCar.setUserId(this.urId);
+		shopCar.clear();
 	}
 
 	@Override
 	public int sumCount() {
-		int count = 0;
-		List<SpShopCarItem> dbItems = this.carDAO.findByUrId(urId);
-		if(dbItems != null) {
-			for(SpShopCarItem item:dbItems) {
-				count += item.getCarItNumber();
-			}
-		}
-		return count;
+		IShopCarService shopCar = (IShopCarService)ApplicationContextTool.getBean("ShopCarServiceImpl4DBAdapter");
+		shopCar.setUserId(this.urId);
+		return shopCar.sumCount();
 	}
 
 	@Override// 数据库中的item查询出来，封装成代码中的item
 	public List<ShopCarItem> getProList() {
-		List<ShopCarItem> items = null;
-		
-		// 查询数据库对象
-		List<SpShopCarItem> dbItems = this.carDAO.findByUrId(urId);
-		// 封装成ShopCarItem
-		if(dbItems != null) {
-			items = new ArrayList<ShopCarItem>();
-			ShopCarItem item = null;
-			for(SpShopCarItem dbItem:dbItems) {
-				item = new ShopCarItem();
-				item.setCount(dbItem.getCarItNumber());
-				//item.setPro(this.productDAO.findById(dbItem.getCarItPrId()));
-				SpProduct product = this.productService.searchById(dbItem.getCarItPrId());
-				item.setPro(product);
-				
-				items.add(item);
-			}
-		}
-		
-		return items;
+		IShopCarService shopCar = (IShopCarService)ApplicationContextTool.getBean("ShopCarServiceImpl4DBAdapter");
+		shopCar.setUserId(this.urId);
+		return shopCar.getProList();
 	}
 
 }

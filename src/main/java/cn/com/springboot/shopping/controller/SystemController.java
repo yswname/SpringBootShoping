@@ -26,7 +26,7 @@ import cn.com.springboot.shopping.service.impl.ShopCarServiceImpl;
  */
 @Controller
 @RequestMapping("/system")
-@SessionScope // 定义SystemController的生命周期为Session
+//@SessionScope // 定义SystemController的生命周期为Session
 @SessionAttributes(value = { "LOGIN_USER", "SHOP_CAR" }) // 同步Model中 LOGIN_USER、SHOP_CAR的值到Session
 public class SystemController {
 	/**

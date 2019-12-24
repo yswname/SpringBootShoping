@@ -28,7 +28,7 @@ import cn.com.springboot.shopping.service.impl.ShopCarServiceImpl;
  */
 @Controller
 @RequestMapping("/car")
-@SessionScope // 定义控制器的作用域为Session
+//@SessionScope // 定义控制器的作用域为Session
 @SessionAttributes(value = { "SHOP_CAR" }) // 同步model中的SHOP_CAR到Session
 public class ShopCarController {
 	/**

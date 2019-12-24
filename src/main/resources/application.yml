@@ -2,7 +2,7 @@
 #服务配置 server.port= 
 #        server.servlet.context-path=
 server:
-  port: 80
+  port: 81
   servlet:
     context-path: /
 
@@ -15,12 +15,19 @@ spring:
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
+  redis:
+    database: 0
+    #远程redis地址
+    host: 192.168.94.100
+    #redis默认端口就是6379
+    port: 6379
+    timeout: 2000
 #数据源配置
   datasource:
     username: root
     password: 123456
     url: jdbc:mysql://localhost:3306/shop_db?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.jdbc.Driver
 #mybatis配置s
 mybatis:
   type-aliases-package: cn.com.springboot.shopping.entity

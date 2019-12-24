@@ -1,8 +1,10 @@
 package cn.com.springboot.shopping.service;
 
+import java.io.Serializable;
+
 import cn.com.springboot.shopping.entity.SpProduct;
 
-public class ShopCarItem {
+public class ShopCarItem implements Serializable{
 	private SpProduct pro;
 	private int count;
 
