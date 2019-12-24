@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.context.annotation.SessionScope;
 
 import cn.com.springboot.shopping.entity.SpProduct;
 import cn.com.springboot.shopping.entity.SpUser;
@@ -29,6 +30,7 @@ import cn.com.springboot.shopping.service.impl.ShopCarServiceImpl;
 @Controller
 @RequestMapping("/car")
 //@SessionScope // 定义控制器的作用域为Session
+@Scope(value=ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @SessionAttributes(value = { "SHOP_CAR" }) // 同步model中的SHOP_CAR到Session
 public class ShopCarController {
 	/**

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,7 @@ import cn.com.springboot.shopping.service.impl.ShopCarServiceImpl;
 @Controller
 @RequestMapping("/system")
 //@SessionScope // 定义SystemController的生命周期为Session
+@Scope(value=ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @SessionAttributes(value = { "LOGIN_USER", "SHOP_CAR" }) // 同步Model中 LOGIN_USER、SHOP_CAR的值到Session
 public class SystemController {
 	/**
